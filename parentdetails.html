@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            background: rgb(232, 218, 226);
+            font-family: Arial, sans-serif;
+        }
+
+        .topnav {
+    background-color: #1a43bf;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: -20px;
+    padding: 10px 20px;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center; /* Center the main content horizontally */
+    align-items: center; /* Center the main content vertically */
+  }
+
+  .logo-container {
+    display: flex; /* Arrange logo and main text in a row */
+    flex-direction: column; /* Stack the main text and subsequent lines vertically */
+    align-items: center; /* Center items horizontally within the container */
+    text-align: center; /* Center text within the text spans */
+  }
+
+  .logo-container img {
+    max-height: 60px;
+    margin-right: 15px; /* Space between logo and the first line of text */
+  }
+
+  .main-logo-text {
+    display: flex; /* To align logo and the first line of text */
+    align-items: center; /* Vertically align logo and the first line of text */
+    margin-bottom: 5px; /* Space between the main logo text and the next line */
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+  }
+
+  .sub-text {
+    font-size: 0.9rem;
+  }
+
+  .address-text {
+    font-size: 0.8rem;
+  }
+        h3 {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
+        .form-container {
+            max-width: 80%;
+            background: #efd8b8;
+            border-radius: 10px;
+            margin: 50px auto 30px;
+            padding: 10px;
+            border: 2px solid rgb(72, 69, 74);
+        }
+        .form-section {
+            background-color: #efd8b8;
+            padding: 20px;
+            border: 1.5px solid black;
+            border-radius: 10px;
+        }
+
+
+        form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 20px;
+        }
+        .b1 {
+            color: rgb(248, 246, 242);
+            font-size: 20px;}
+
+        /* Two columns on large screens, one column on small screens */
+        @media (min-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+
+        label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: black;
+        }
+
+        input[type=text],
+        input[type=email],
+        input[type=number],
+        input[type=file],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #070707;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            background-color: #1a43bf;
+            color: white;
+            padding: 20px 90px;
+            margin: 20px auto;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: block;
+        }
+
+        input[type=submit]:hover {
+            background-color: #143a9c;
+        }
+
+
+        @media (max-width: 768px) {
+            input[type=submit] {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="topnav">
+        <div class="logo-container">
+          <div class="main-logo-text">
+            <img src="static\uploads\download.jpeg" alt="KSSEM Logo">
+            <span class="logo">K S SCHOOL OF ENGINEERING AND MANAGEMENT</span>
+          </div>
+          <span class="sub-text">Dept. of ECE</span>
+          <span class="address-text">No.15, Mallasandra, Off. Kanakapura Road, Bengaluru-560109</span>
+        </div>
+      </div>
+    <br><br><br>
+    <div style="margin: 80px 20px 0 20px;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div style="background-color: #f8d7da; color: #721c24; padding: 12px 20px; border: 1px solid #f5c6cb; border-radius: 5px; margin-bottom: 20px;">
+                            {{ message }}
+                        </div>
+                    {% else %}
+                        <div style="background-color: #d1ecf1; color: #0c5460; padding: 12px 20px; border: 1px solid #bee5eb; border-radius: 5px; margin-bottom: 20px;">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="form-container">
+        <form action="" method="POST" name="paren_data" enctype="multipart/form-data">
+            <h3>Parents Details</h3>
+<br>
+            <div class="form-grid">
+                <!-- Father's Details -->
+                <div class="form-section">
+                <div>
+                    <label for="father_photo">Upload Father's Photo:</label>
+                    <input type="file" id="father_photo" name="father_photo" accept="image/*" required>
+                </div>
+                <div>
+                    <label for="father_name">Father's Name:</label>
+                    <input type="text" id="father_name" name="father_name" placeholder="Father's Name" required>
+                </div>
+                <div>
+                    <label for="father_occupation">Occupation:</label>
+                    <input type="text" id="father_occupation" name="father_occupation" placeholder="Occupation" required>
+                </div>
+                <div>
+                    <label for="father_mobile">Mobile Number:</label>
+                    <input type="number" id="father_mobile" name="father_mobile" placeholder="Mobile Number" required pattern="\d{10}" title="Enter a 10-digit number">
+                </div>
+                <div>
+                    <label for="father_email">Email:</label>
+                    <input type="email" id="father_email" name="father_email" placeholder="Email">
+                </div>
+</div>
+                <!-- Mother's Details -->
+                <div class="form-section">
+                <div>
+                    <label for="mother_photo">Upload Mother's Photo:</label>
+                    <input type="file" id="mother_photo" name="mother_photo" accept="image/*" required>
+                </div>
+                <div>
+                    <label for="mother_name">Mother's Name:</label>
+                    <input type="text" id="mother_name" name="mother_name" placeholder="Mother's Name" required>
+                </div>
+                <div>
+                    <label for="mother_occupation">Occupation:</label>
+                    <input type="text" id="mother_occupation" name="mother_occupation" placeholder="Occupation" required>
+                </div>
+                <div>
+                    <label for="mother_mobile">Mobile Number:</label>
+                    <input type="number" id="mother_mobile" name="mother_mobile" placeholder="Mobile Number" required>
+                </div>
+                </div>
+                <!-- Guardian's Details -->
+                <div class="form-section">
+                <div>
+
+                    <label for="guardian_photo">Upload Guardian's Photo:</label>
+                    <input type="file" id="guardian_photo" name="guardian_photo" accept="image/*" required>
+                </div>
+                <div>
+                    <label for="guardian_name">Guardian's Name:</label>
+                    <input type="text" id="guardian_name" name="guardian_name" placeholder="Guardian's Name" required>
+                </div>
+                <div>
+                    <label for="guardian_occupation">Occupation:</label>
+                    <input type="text" id="guardian_occupation" name="guardian_occupation" placeholder="Occupation" required>
+                </div>
+                <div>
+                    <label for="guardian_mobile">Mobile Number:</label>
+                    <input type="number" id="guardian_mobile" name="guardian_mobile" placeholder="Mobile Number" required>
+                </div>
+            </div>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

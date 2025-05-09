@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(232, 218, 226);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: black;
+            margin-top: 20px;
+            justify-content: center;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        table {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px 15px;
+            text-align: left;
+            border-right: 1px solid gray; /* Separation line between columns */
+        }
+
+        th {
+            background-color: #efd8b8;
+            color: black;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        .topnav {
+    background-color: #1a43bf;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: -20px;
+    padding: 10px 20px;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center; /* Center the main content horizontally */
+    align-items: center; /* Center the main content vertically */
+  }
+
+  .logo-container {
+    display: flex; /* Arrange logo and main text in a row */
+    flex-direction: column; /* Stack the main text and subsequent lines vertically */
+    align-items: center; /* Center items horizontally within the container */
+    text-align: center; /* Center text within the text spans */
+  }
+
+  .logo-container img {
+    max-height: 60px;
+    margin-right: 15px; /* Space between logo and the first line of text */
+  }
+
+  .main-logo-text {
+    display: flex; /* To align logo and the first line of text */
+    align-items: center; /* Vertically align logo and the first line of text */
+    margin-bottom: 5px; /* Space between the main logo text and the next line */
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+  }
+
+  .sub-text {
+    font-size: 0.9rem;
+  }
+
+  .address-text {
+    font-size: 0.8rem;
+  }
+
+        @media (max-width: 600px) {
+            table {
+                width: 100%;
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+
+            a {
+                font-size: 12px;
+            }
+        }
+        .download-button-container {
+    display: flex;
+    justify-content: left;
+    margin-top: 20px; /* Add some space above the button */
+  }
+
+  .download-button {
+    background-color: #007BFF; /* Green background */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 1px 24px;
+    cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+
+  .download-button:hover {
+    background-color: #1a43bf; /* Darker green on hover */
+  }
+
+</style>
+</head>
+<body>
+    <div class="topnav">
+        <div class="logo-container">
+          <div class="main-logo-text">
+            <img src="static\uploads\download.jpeg" alt="KSSEM Logo">
+            <span class="logo">K S SCHOOL OF ENGINEERING AND MANAGEMENT</span>
+          </div>
+          <span class="sub-text">Dept. of ECE</span>
+          <span class="address-text">No.15, Mallasandra, Off. Kanakapura Road, Bengaluru-560109</span>
+        </div>
+      </div>
+<br><br><br><br><br>
+
+    <h1 style="text-align: left;margin-left: 22px;">Parent Details</h1>
+
+    <!-- Search Form -->
+    <form method="get" action="/family" style="margin: 20px; display: flex; align-items: center;" onsubmit="return validateForm()">
+        <input   type="text"  name="search" placeholder="Search by Father, Mother, or Guardian Name" value="{{ search_query }}"
+        style="width:25%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+        <button
+            type="submit" style="margin-left: 10px; background-color: #007BFF; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+            Search
+        </button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Father Photo</th>
+            <th>Father Name</th>
+            <th>Father Occupation</th>
+            <th>Father Mobile</th>
+            <th>Father Email</th>
+            <th>Mother Photo</th>
+            <th>Mother Name</th>
+            <th>Mother Occupation</th>
+            <th>Mother Mobile</th>
+            <th>Guardian Photo</th>
+            <th>Guardian Name</th>
+            <th>Guardian Occupation</th>
+            <th>Guardian Mobile</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for parent in parents %}
+        <tr>
+            <td><img src="{{ url_for('static', filename='uploads/' + parent.father_photo) }}" alt="Father Photo" width="100px"></td>
+            <td>{{ parent.father_name }}</td>
+            <td>{{ parent.father_occupation }}</td>
+            <td>{{ parent.father_mobile }}</td>
+            <td>{{ parent.father_email }}</td>
+            <td><img src="{{ url_for('static', filename='uploads/' + parent.mother_photo) }}" alt="Mother Photo" width="100px"></td>
+            <td>{{ parent.mother_name }}</td>
+            <td>{{ parent.mother_occupation }}</td>
+            <td>{{ parent.mother_mobile }}</td>
+            <td><img src="{{ url_for('static', filename='uploads/' + parent.guardian_photo) }}" alt="Guardian Photo" width="100px"></td>
+            <td>{{ parent.guardian_name }}</td>
+            <td>{{ parent.guardian_occupation }}</td>
+            <td>{{ parent.guardian_mobile }}</td>
+            <td class="actions">
+                <button onclick="location.href='/update_parent/{{ parent.id }}'" style="background-color: green; color: white; padding: 10px 28px; font-size: 14px; border-radius: 5px;">Update</button><br><br>
+
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+   <script>
+          function validateForm() {
+            var searchInput = document.querySelector('input[name="search"]');
+            if (searchInput.value.trim() === "") {
+                alert("Please enter a search query.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+
+
+   </script>
+
+</body>
+</html>

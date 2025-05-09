@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Teacher Dashboard</title>
+    <style>
+        /* Basic styles */
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: rgb(232, 218, 226);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.5s ease;
+        }
+
+        /* Navbar Styling */
+        .topnav {
+    background-color: #1a43bf;
+    color: white;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: -27px;
+    padding: 10px 20px;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center; /* Center the main content horizontally */
+    align-items: center; /* Center the main content vertically */
+  }
+
+  .logo-container {
+    display: flex; /* Arrange logo and main text in a row */
+    flex-direction: column; /* Stack the main text and subsequent lines vertically */
+    align-items: center; /* Center items horizontally within the container */
+    text-align: center; /* Center text within the text spans */
+  }
+
+  .logo-container img {
+    max-height: 60px;
+    margin-right: 15px; /* Space between logo and the first line of text */
+  }
+
+  .main-logo-text {
+    display: flex; /* To align logo and the first line of text */
+    align-items: center; /* Vertically align logo and the first line of text */
+    margin-bottom: 5px; /* Space between the main logo text and the next line */
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+  }
+
+  .sub-text {
+    font-size: 0.9rem;
+  }
+
+  .address-text {
+    font-size: 0.8rem;
+  }
+        /* Container Styling */
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px; /* Increased padding for more space */
+            max-width: 800px;
+            margin-bottom: -80px;
+            width: 90%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.03);
+            box-shadow: 0 16px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Content */
+        .division {
+            margin: 20px 0;
+        }
+
+        .division p {
+            font-size: 28px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Button Styling */
+        .fancy-button {
+            display: inline-block;
+            width: 300px;
+            padding: 20px;
+            margin: 15px 0;
+            font-size: 18px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            background: #ffb300;
+            border-radius: 12px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: bold;
+            border: none; /* Added to ensure no default border */
+        }
+
+        .fancy-button:hover {
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            background-color: #ff8800; /* Slightly darker on hover */
+        }
+
+        /* Responsive Layout */
+        @media screen and (max-width: 768px) {
+            .fancy-button {
+                width: 80%;
+                font-size: 16px;
+            }
+
+            .division p {
+                font-size: 22px;
+            }
+        }
+
+        /* Toggle Button Styling */
+        #toggle-placement-btn {
+            background-color: #5cb85c; /* Green color */
+            margin-top: 30px; /* Add some space above */
+        }
+
+        #toggle-placement-btn:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="topnav">
+        <div class="logo-container">
+          <div class="main-logo-text">
+            <img src="static\uploads\download.jpeg" alt="KSSEM Logo">
+            <span class="logo">K S SCHOOL OF ENGINEERING AND MANAGEMENT</span>
+          </div>
+          <span class="sub-text">Dept. of ECE</span>
+          <span class="address-text">No.15, Mallasandra, Off. Kanakapura Road, Bengaluru-560109</span>
+        </div>
+      </div>
+
+
+<div class="container">
+    <div class="division">
+        <p>Teacher Actions ↓</p>
+        <div>
+            <a href="{{ url_for('display') }}" class="fancy-button">View / Modify Student Details</a>
+        </div>
+        <div>
+            <a href="{{ url_for('family') }}" class="fancy-button">View / Modify Parent Details</a>
+        </div>
+        <div>
+            <a href="{{ url_for('acadisplay') }}" class="fancy-button">View / Modify Academic Details</a>
+        </div>
+    </div>
+
+    <div>
+        <button id="toggle-placement-btn" class="fancy-button">
+            Enable Placement Info for Students
+        </button>
+        <p id="toggle-message" style="margin-top: 10px; font-size: 0.9em; color: green; display: none;">Placement info toggled!</p>
+        <p id="toggle-error" style="margin-top: 10px; font-size: 0.9em; color: red; display: none;">Failed to toggle.</p>
+    </div>
+</div>
+
+<script>
+    const togglePlacementBtn = document.getElementById('toggle-placement-btn');
+    const toggleMessage = document.getElementById('toggle-message');
+    const toggleError = document.getElementById('toggle-error');
+
+    togglePlacementBtn.addEventListener('click', async function() {
+        try {
+            const response = await fetch('/api/toggle-placement-permission', {
+                method: 'POST',
+            });
+            const data = await response.json();
+            if (data.success) {
+                toggleMessage.style.display = 'block';
+                toggleError.style.display = 'none';
+                // Optionally update button text based on the new state: data.isVisible
+                togglePlacementBtn.textContent = data.isVisible ? 'Disable Placement Info for Students' : 'Enable Placement Info for Students';
+                setTimeout(() => {
+                    toggleMessage.style.display = 'none';
+                }, 2000); // Hide success message after 2 seconds
+            } else {
+                toggleError.style.display = 'block';
+                toggleMessage.style.display = 'none';
+                setTimeout(() => {
+                    toggleError.style.display = 'none';
+                }, 2000); // Hide error message after 2 seconds
+            }
+        } catch (error) {
+            console.error('Error toggling placement info:', error);
+            toggleError.style.display = 'block';
+            toggleMessage.style.display = 'none';
+            setTimeout(() => {
+                toggleError.style.display = 'none';
+            }, 2000); // Hide error message after 2 seconds
+        }
+    });
+
+    // Existing smooth scrolling and hover effects
+    document.querySelectorAll('a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const href = this.getAttribute('href');
+
+            setTimeout(() => {
+                window.location.href = href;
+            }, 500); // Slightly faster loading simulation
+        });
+    });
+
+    const buttons = document.querySelectorAll('.fancy-button:not(#toggle-placement-btn)'); // Exclude toggle button
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            button.style.transform = 'scale(1.05)'; // Slightly less scaling
+            button.style.backgroundColor = '#ff8800';
+        });
+
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'scale(1)';
+            button.style.backgroundColor = '#ffb300';
+        });
+
+        button.addEventListener('mousedown', () => {
+            button.style.backgroundColor = '#ff6347';
+        });
+
+button.addEventListener('mouseup', () => {
+    button.style.backgroundColor = '#ff6347';
+});
+});
+
+// Background color change on scroll
+window.addEventListener('scroll', () => {
+document.body.style.backgroundColor =
+    window.scrollY > 100 ? '#ff6347' : 'rgb(232, 218, 226)';
+});
+</script>
+
+</body>
+</html>

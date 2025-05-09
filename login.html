@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+  /* Resetting defaults */
+  *, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  }
+
+  /* Page background with gradient */
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgb(232, 218, 226);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  }
+
+  /* Navigation bar styling */
+  .topnav {
+  background-color: #1a43bf;
+  color: white;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px 20px;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center; /* Center the main content horizontally */
+  align-items: center; /* Center the main content vertically */
+  }
+
+  .logo-container {
+  display: flex; /* Arrange logo and main text in a row */
+  flex-direction: column; /* Stack the main text and subsequent lines vertically */
+  align-items: center; /* Center items horizontally within the container */
+  text-align: center; /* Center text within the text spans */
+  }
+
+  .logo-container img {
+  max-height: 60px;
+  margin-right: 15px; /* Space between logo and the first line of text */
+  }
+
+  .main-logo-text {
+  display: flex; /* To align logo and the first line of text */
+  align-items: center; /* Vertically align logo and the first line of text */
+  margin-bottom: 5px; /* Space between the main logo text and the next line */
+  }
+
+  .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.75px;
+  }
+
+  .sub-text {
+  font-size: 0.9rem;
+  }
+
+  .address-text {
+  font-size: 0.8rem;
+  }
+  /* Container styling */
+  .container {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Form heading */
+  h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #1a43bf;
+  }
+
+  /* Flash messages styling */
+  .flash-message {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  text-align: center;
+  }
+
+  .flash-message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  }
+
+  .flash-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  }
+
+  /* Form inputs styling */
+  form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  }
+
+  input {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border 0.3s, box-shadow 0.3s;
+  }
+
+  input:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 8px rgba(37, 117, 252, 0.5);
+  outline: none;
+  }
+
+  /* Button styling */
+  button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #2575fc;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  }
+
+  button:hover {
+  background: #1a43bf;
+  transform: translateY(-3px);
+  }
+
+  /* Link styling */
+  a {
+  color: #2575fc;
+  text-decoration: none;
+  transition: color 0.3s;
+  }
+
+  a:hover {
+  color: #1a43bf;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+  .container {
+  padding: 30px;
+  width: 90%;
+  }
+
+  h2 {
+  font-size: 24px;
+  }
+
+  button {
+  font-size: 16px;
+  }
+
+  .main-logo-text {
+  flex-direction: row; /* Display logo and text in a row on smaller screens */
+  align-items: center; /* Vertically align items in the row */
+  }
+
+  .main-logo-text img {
+  margin-bottom: 0; /* Remove bottom margin when in a row */
+  }
+
+  .logo-container {
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text */
+  }
+  }
+  </style>
+ </head>
+ <body>
+
+  <div class="topnav">
+  <div class="logo-container">
+  <div class="main-logo-text">
+  <img src="static\uploads\download.jpeg" alt="kssem">
+  <span class="logo">K S SCHOOL OF ENGINEERING AND MANAGEMENT</span>
+  </div>
+  <span class="sub-text">Dept. of ECE</span>
+  <span class="address-text">No.15, Mallasandra, Off. Kanakapura Road, Bengaluru-560109</span>
+  </div>
+  </div>
+ <br><br><br><br>
+
+ <div class="container">
+  <h2>Login</h2>
+
+  {% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <p class="flash-message {{ category }}">{{ message }}</p>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <form method="POST">
+  <input type="text" name="username" placeholder="Username" required value="{{ username if username else '' }}">
+  <input type="password" name="password" placeholder="Password" required>
+  <button type="submit">Login</button>
+  </form>
+
+  <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+ </div>
+
+ </body>
+ </html>
