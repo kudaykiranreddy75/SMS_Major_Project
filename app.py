@@ -156,9 +156,9 @@ def login():
             return redirect(url_for('optionfield'))
         else:
             flash('Invalid username or password', 'error')
-            return render_template('login.html', username=username)
+            return render_template('index.html', username=username)
 
-    return render_template('login.html')
+    return render_template('index.html')
 
 
 # Register Route
